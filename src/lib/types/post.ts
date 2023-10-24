@@ -51,3 +51,7 @@ export const downvotePost = async (post: Post, cuid: string) => {
 
   return post;
 };
+
+export const deletePost = async (post: Post) => {
+  await pb.collection('posts').delete(post.id);
+}
