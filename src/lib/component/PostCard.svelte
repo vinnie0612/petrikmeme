@@ -26,10 +26,10 @@
     </h1>
     <span class="text-3xl p-3 flex flex-row">
       {#if $currentUser}
+        <p class="text-lg px-2">{post.score}</p>
         <button on:click={async () => (post = await upvotePost(post, $currentUser?.id))}>
           <Icon icon="mingcute:up-fill" class={post.isVoted == 'up' ? 'text-emerald-500' : ''} />
         </button>
-        <p class="text-lg">{post.score}</p>
         <button on:click={async () => (post = await downvotePost(post, $currentUser?.id))}>
           <Icon icon="mingcute:down-fill" class={post.isVoted == 'down' ? 'text-red-500' : ''} />
         </button>

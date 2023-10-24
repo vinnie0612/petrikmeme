@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-    <title>PetrikMeme</title> 
+  <title>PetrikMeme</title>
 </svelte:head>
 
 <main class="">
