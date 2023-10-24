@@ -7,7 +7,7 @@
 
   <div class="shadow-lg">  
     <input type="text" class="p-2 rounded-lg bg-slate-600 focus:outline-none transition text-white focus:bg-slate-700">
-    <button class="bg-slate-600 p-2 rounded-lg ">Keresés</button>
+    <button class="bg-slate-600 p-2 rounded-lg hidden md:inline">Keresés</button>
   </div>
 
 
