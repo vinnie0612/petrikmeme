@@ -4,6 +4,13 @@
 
 <nav class="bg-slate-800 py-2 px-3 justify-between flex items-center">
   <a class="w-10 font-bold" href="/"> <img src="/favicon.png" alt="" /></a>
+
+  <div class="shadow-lg">  
+    <input type="text" class="p-2 rounded-lg bg-slate-600 focus:outline-none transition text-white focus:bg-slate-700">
+    <button class="bg-slate-600 p-2 rounded-lg ">Keresés</button>
+  </div>
+
+
   {#if $currentUser}
     <button on:click={signOut} class="bg-slate-600 hover:bg-slate-700 transition p-2 rounded-lg"
       >Kilépés</button
@@ -12,6 +19,7 @@
     <button on:click={signIn} class="bg-teal-400 p-2 rounded-lg text-slate-800">Belépés</button>
   {/if}
 </nav>
+
 {#if $currentUser}
   <div class="bg-teal-400 text-center text-slate-950">
     {$currentUser.email}
