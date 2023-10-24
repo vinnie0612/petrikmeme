@@ -21,15 +21,21 @@
 
 <div class="bg-slate-800 shadow-lg overflow-hidden rounded-xl border border-slate-600">
   <div class="border-b border-slate-600 flex flex-row items-center justify-between">
-    <h1 class="p-3 text-2xl font-semibold">
-      {post.title}
-    </h1>
-    <span class="text-3xl p-3 flex flex-row">
+    <span class="p-3">
+      <h1 class="text-xl md:text-2xl font-semibold">
+        {post.title}
+      </h1>
+      <p class="text-sm md:text-base">
+        {post.created.split(' ')[0]}
+      </p>
+    </span>
+    
+    <span class="text-3xl p-2 md:p-3 flex md:flex-row flex-col">
       {#if $currentUser}
-        <p class="text-lg px-2">{post.score}</p>
-        <button on:click={async () => (post = await upvotePost(post, $currentUser?.id))}>
-          <Icon icon="mingcute:up-fill" class={post.isVoted == 'up' ? 'text-emerald-500' : ''} />
-        </button>
+      <button on:click={async () => (post = await upvotePost(post, $currentUser?.id))}>
+        <Icon icon="mingcute:up-fill" class={post.isVoted == 'up' ? 'text-emerald-500' : ''} />
+      </button>
+      <p class="text-lg px-2">{post.score}</p>
         <button on:click={async () => (post = await downvotePost(post, $currentUser?.id))}>
           <Icon icon="mingcute:down-fill" class={post.isVoted == 'down' ? 'text-red-500' : ''} />
         </button>
