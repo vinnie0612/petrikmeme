@@ -11,7 +11,9 @@ export const load = async () => {
       post.votes = post.expand?.votes;
       post.upvotes = post.votes?.filter((v: Vote) => v.isUpvote);
       post.downvotes = post.votes?.filter((v: Vote) => !v.isUpvote);
-      post.score = post.upvotes.length - post.downvotes.length;
+      if (post.upvotes && post.downvotes) {
+        post.score = post.upvotes.length - post.downvotes.length;
+      }
       post.image = pb.files.getUrl(post, post.image);
     }
     return posts.items;
