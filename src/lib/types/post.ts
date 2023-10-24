@@ -1,24 +1,40 @@
 import type { RecordModel } from 'pocketbase';
-import type { Vote } from './vote';
 import { pb } from '$lib/util/pocketbase';
 
 export interface Post extends RecordModel {
   title: string;
   image: string;
-  votes: Vote[];
-  upvotes: Vote[];
-  downvotes: Vote[];
+  upvotes: string[];
+  downvotes: string[];
   score: number;
+  isVoted: "up" | "down" | "none";
 }
 
-export const upvotePost = async (postId: string, cuid: string) => {
-  const vote = await pb.collection('votes').create({
-    isUpvote: true,
-    post: postId,
-    user: cuid,
-  });
+export const upvotePost = async (post: Post, cuid: string) => {
+  if (!post.upvotes.includes(cuid)) {
+    post.upvotes.push(cuid);
+  } else {
+    post.upvotes = post.upvotes.filter((u) => u !== cuid);
+  }
+  pb.collection('posts').update(post.id, { upvotes: post.upvotes, downvotes: post.downvotes });
+  post.isVoted = post.upvotes.includes(cuid) ? "up" : post.downvotes.includes(cuid) ? "down" : "none";
+  post.score = post.upvotes.length - post.downvotes.length;
 
-  await pb.collection('posts').update(postId, {
-    votes: [vote.id]
-  });
-};
+  return post;
+}
+
+export const downvotePost = async (post: Post, cuid: string) => {
+  if (post.upvotes.includes(cuid)) {
+    post.upvotes = post.upvotes.filter((u) => u !== cuid);
+  }
+  if (!post.downvotes.includes(cuid)) {
+    post.downvotes.push(cuid);
+  } else {
+    post.downvotes = post.downvotes.filter((u) => u !== cuid);
+  }
+  await pb.collection('posts').update(post.id, { upvotes: post.upvotes, downvotes: post.downvotes });
+  post.isVoted = post.upvotes.includes(cuid) ? "up" : post.downvotes.includes(cuid) ? "down" : "none";
+  post.score = post.upvotes.length - post.downvotes.length;
+
+  return post;
+}

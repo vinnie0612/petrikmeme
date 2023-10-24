@@ -1,11 +1,8 @@
-<script>
-  import { currentUser, signIn, signOut } from '$lib/util/pocketbase';
+<script lang="ts">
+  import type { Post } from '$lib/types/post';
+  export let data: { result: Post[] };
 
-  export let data;
-
-  // Just to see
   import PostCard from '$lib/component/PostCard.svelte';
-  import { onMount } from 'svelte';
 </script>
 
 <main class="">
