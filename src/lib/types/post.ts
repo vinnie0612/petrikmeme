@@ -11,6 +11,9 @@ export interface Post extends RecordModel {
 }
 
 export const upvotePost = async (post: Post, cuid: string) => {
+  if (post.downvotes.includes(cuid)) {
+    post.downvotes = post.downvotes.filter((u) => u !== cuid);
+  }
   if (!post.upvotes.includes(cuid)) {
     post.upvotes.push(cuid);
   } else {
