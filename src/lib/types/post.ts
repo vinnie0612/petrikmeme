@@ -23,8 +23,8 @@ export const upvotePost = async (post: Post, cuid: string) => {
   post.isVoted = post.upvotes.includes(cuid)
     ? 'up'
     : post.downvotes.includes(cuid)
-      ? 'down'
-      : 'none';
+    ? 'down'
+    : 'none';
   post.score = post.upvotes.length - post.downvotes.length;
 
   return post;
@@ -45,8 +45,8 @@ export const downvotePost = async (post: Post, cuid: string) => {
   post.isVoted = post.upvotes.includes(cuid)
     ? 'up'
     : post.downvotes.includes(cuid)
-      ? 'down'
-      : 'none';
+    ? 'down'
+    : 'none';
   post.score = post.upvotes.length - post.downvotes.length;
 
   return post;
@@ -54,15 +54,17 @@ export const downvotePost = async (post: Post, cuid: string) => {
 
 export const deletePost = async (post: Post) => {
   await pb.collection('posts').delete(post.id);
-}
+};
 
 export const getPosts = async (page: number, perPage: number, filter: string, sort: string) => {
-  const posts = await pb.collection('posts').getFullList({ filter, page, perPage, sort, requestKey: null })
+  const posts = await pb
+    .collection('posts')
+    .getFullList({ filter, page, perPage, sort, requestKey: null });
   for (const post of posts) {
     if (post.upvotes && post.downvotes) {
       post.score = post.upvotes.length - post.downvotes.length;
-    };
+    }
     post.image = pb.files.getUrl(post, post.image);
   }
-  return posts
-}
+  return posts;
+};
