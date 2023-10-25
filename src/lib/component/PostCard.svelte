@@ -3,6 +3,8 @@
   
   import { currentUser } from '$lib/util/pocketbase';
   
+  import PostImage from './PostImage.svelte';
+  
   import Icon from '@iconify/svelte';
   
   export let post: Post;
@@ -54,5 +56,5 @@
     </span>
   </div>
   
-  <img src={post.image} alt={post.title} class="w-full" />
+  <PostImage image={post.image} title={post.title}/>
 </div>
