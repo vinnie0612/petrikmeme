@@ -56,7 +56,20 @@ export const deletePost = async (post: Post) => {
   await pb.collection('posts').delete(post.id);
 };
 
-export const getPosts = async (page: number, perPage: number, filter: string, pbsort: string) => {
+export enum PostSorting {
+  Top,
+  Bottom,
+  New,
+  Old
+}
+
+export const getPosts = async (
+  page: number,
+  perPage: number,
+  filter: string,
+  pbsort: string,
+  sorting: PostSorting
+) => {
   // Get the posts
   const posts = await pb
     .collection('posts')
@@ -71,7 +84,15 @@ export const getPosts = async (page: number, perPage: number, filter: string, pb
   }
 
   // Sort posts according to the sorting param
-  posts.sort((a, b) => b.score - a.score);
+  if (sorting == PostSorting.Top) {
+    posts.sort((a, b) => b.score - a.score);
+  } else if (sorting == PostSorting.Bottom) {
+    posts.sort((a, b) => a.score - b.score);
+  } else if (sorting == PostSorting.New) {
+    posts.sort((a, b) => b.createdAt - a.createdAt);
+  } else if (sorting == PostSorting.Old) {
+    posts.sort((a, b) => a.createdAt - b.createdAt);
+  }
 
   return posts;
 };
