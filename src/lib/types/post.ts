@@ -56,15 +56,22 @@ export const deletePost = async (post: Post) => {
   await pb.collection('posts').delete(post.id);
 };
 
-export const getPosts = async (page: number, perPage: number, filter: string, sort: string) => {
+export const getPosts = async (page: number, perPage: number, filter: string, pbsort: string) => {
+  // Get the posts
   const posts = await pb
     .collection('posts')
-    .getFullList({ filter, page, perPage, sort, requestKey: null });
+    .getFullList({ filter, page, perPage, sort: pbsort, requestKey: null });
+
+  // Add score and image to each post
   for (const post of posts) {
     if (post.upvotes && post.downvotes) {
       post.score = post.upvotes.length - post.downvotes.length;
     }
     post.image = pb.files.getUrl(post, post.image);
   }
+
+  // Sort posts according to the sorting param
+  posts.sort((a, b) => b.score - a.score);
+
   return posts;
 };
